@@ -17,14 +17,14 @@ jobs:
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install ocl-icd-opencl-dev
       - name: Build filecoin-ffi
         run: cd gen/extern/filecoin-ffi && make
-      - name: Fetch go dependencies
-        run: go get ./...
       - name: Update test vectors
         run: make upgen
       - name: Commit and push
