@@ -4,8 +4,8 @@ on:
     branches:
       - master
 jobs:
-  generate:
-    name: Generate all test vectors, updating existing vectors IF they have changed.
+  update-vectors:
+    name: Update test vectors
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -20,9 +20,15 @@ jobs:
         run: cd gen/extern/filecoin-ffi && make
       - name: Update test vectors
         run: make upgen
-      - name: Commit and push updated test vectors
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'chore: update test vectors'
-          branch: "chore/update-test-vectors-${{ github.head_ref }}"
-          file_pattern: corpus/**/*.json
+      - name: Commit and push
+        run: |
+          git checkout -b chore/update-test-vectors-${{ github.head_ref }}
+          git add corpus/**/*.json
+          git commit -m 'chore: update test vectors'
+          git push origin chore/update-test-vectors-${{ github.head_ref }}
+      # - name: Commit and push updated test vectors
+      #   uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: 'chore: update test vectors'
+      #     branch: "chore/update-test-vectors-${{ github.head_ref }}"
+      #     file_pattern: corpus/**/*.json
