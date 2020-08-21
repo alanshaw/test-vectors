@@ -8,15 +8,19 @@ jobs:
     name: Generate all test vectors, updating existing vectors IF they have changed.
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
+      - name: Checkout repo
         uses: actions/checkout@v2
-      - name: Init submodules
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install ocl-icd-opencl-dev
+      - name: Git submodules init
         run: git submodule update --init
       - name: Build filecoin-ffi
         run: cd gen/extern/filecoin-ffi && make
-      - name: Update Test Vectors
+      - name: Update test vectors
         run: make upgen
-      - name: Commit and Push Updated Test Vectors
+      - name: Commit and push updated test vectors
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'chore: update test vectors'
