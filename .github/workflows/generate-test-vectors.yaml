@@ -32,9 +32,13 @@ jobs:
         run: |
           echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
           echo ::set-output name=branch::chore/update-test-vectors-$(git rev-parse --short=7 ${{ github.sha }})
-          echo ::set-output name=changes_detected::0
+          git status -s -- corpus/**/*.json
           if [ -n "$(git status -s -- corpus/**/*.json)" ]; then
+            echo "changes detected"
             echo ::set-output name=changes_detected::1
+          else
+            echo "no changes detected"
+            echo ::set-output name=changes_detected::0
           fi
       - name: Commit and push
         if: ${{ steps.vars.changes_detected }} == 1
