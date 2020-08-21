@@ -21,9 +21,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install ocl-icd-opencl-dev
-          go get ./...
       - name: Build filecoin-ffi
         run: cd gen/extern/filecoin-ffi && make
+      - name: Fetch go dependencies
+        run: go get ./...
       - name: Update test vectors
         run: make upgen
       - name: Commit and push
