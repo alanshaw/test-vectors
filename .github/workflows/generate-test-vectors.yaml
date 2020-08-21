@@ -33,12 +33,10 @@ jobs:
           echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
           echo ::set-output name=branch::chore/update-test-vectors-$(git rev-parse --short=7 ${{ github.sha }})
           if [ -n "$(git status -s -- corpus/**/*.json)" ]; then
-            echo ::set-output name=changes_detected::true
-          else
-            echo ::set-output name=changes_detected::false
+            echo ::set-output name=changes_detected::1
           fi
       - name: Commit and push
-        if: steps.vars.changes_detected == 'true'
+        if: steps.vars.changes_detected == 1
         env:
           COMMIT_MESSAGE: "Update test vectors"
         run: |
@@ -47,7 +45,7 @@ jobs:
           git -c user.name="GitHub Actions" -c user.email="actions@github.com" commit -m "$COMMIT_MESSAGE" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
           git push origin ${{ steps.vars.outputs.branch }}
       - name: Open PR
-        if: steps.vars.changes_detected == 'true'
+        if: steps.vars.changes_detected == 1
         env:
           PR_TITLE: "Update test vectors (${{ steps.vars.outputs.sha_short }})"
           PR_BODY: "This PR updates the test vectors that were changed in the commit ${{ github.sha }}."
