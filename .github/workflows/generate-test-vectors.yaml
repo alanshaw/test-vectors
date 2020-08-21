@@ -9,11 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update Test Vectors
-        uses: technote-space/create-pr-action@v2
+        run: make upgen
+      - name: Commit and Push Updated Test Vectors
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          EXECUTE_COMMANDS: make upgen
-          COMMIT_MESSAGE: 'chore: update test vectors'
-          PR_BRANCH_PREFIX: 'chore/'
-          PR_BRANCH_NAME: 'update-test-vectors-${PR_ID}'
-          PR_TITLE: 'chore: update test vectors (${PR_BASE_REF})'
-          PR_BODY: 'This PR updates the test vectors. The vectors were generated from ${PR_BASE_REF}.'
+          commit_message: 'chore: update test vectors'
+          branch: chore/update-test-vectors-${{ github.head_ref }}
+          file_pattern: corpus/**/*.json
