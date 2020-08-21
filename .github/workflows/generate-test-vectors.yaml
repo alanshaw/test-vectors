@@ -11,7 +11,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
       - name: Init submodules
-        run: git submodule init
+        run: git submodule update --init
+      - name: Build filecoin-ffi
+        run: cd gen/extern/filecoin-ffi && make
       - name: Update Test Vectors
         run: make upgen
       - name: Commit and Push Updated Test Vectors
