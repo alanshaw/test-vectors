@@ -31,5 +31,5 @@ jobs:
         run: |
           git checkout -b chore/update-test-vectors-${{ github.sha }}
           git add corpus/**/*.json
-          git -c user.name="GitHub Actions" -c user.email="actions@github.com" commit -m "chore: update test vectors"
+          git -c user.name="GitHub Actions" -c user.email="actions@github.com" commit -m "chore: update test vectors" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
           git push origin chore/update-test-vectors-${{ github.sha }}
