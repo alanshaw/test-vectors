@@ -7,7 +7,7 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "3e9f8d7966a02a288159cdfc801d4173d18ca5b5"
+				"version": "ff96fdf5578321310c084ddc9645315fd30d92c0"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
@@ -31,7 +31,7 @@
 	"apply_messages": [
 		{
 			"bytes": "igBCAAFVAWnoM0lMkR1q/i/hPSFeTFz3B2JVAEMAA+gaO5rKAEIAyEIAAQJYTYLYKlgZAAFVABRmaWwvMS9wYXltZW50Y2hhbm5lbFgtglUBaegzSUyRHWr+L+E9IV5MXPcHYlVVAd/9VU7ZpC7LuvYs4W/+D/v3UpL1",
-			"epoch": 1
+			"epoch": 0
 		},
 		{
 			"bytes": "igBCAAFVAWnoM0lMkR1q/i/hPSFeTFz3B2JVAUMAA+gaO5rKAEIAyEIAAQJYTYLYKlgZAAFVABRmaWwvMS9wYXltZW50Y2hhbm5lbFgtglUBaegzSUyRHWr+L+E9IV5MXPcHYlVVAd/9VU7ZpC7LuvYs4W/+D/v3UpL1",
