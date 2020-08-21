@@ -10,12 +10,12 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install ocl-icd-opencl-dev
-      - name: Git submodules init
-        run: git submodule update --init
       - name: Build filecoin-ffi
         run: cd gen/extern/filecoin-ffi && make
       - name: Update test vectors
@@ -24,5 +24,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'chore: update test vectors'
-          branch: chore/update-test-vectors-${{ github.head_ref }}
+          branch: "chore/update-test-vectors-${{ github.head_ref }}"
           file_pattern: corpus/**/*.json
