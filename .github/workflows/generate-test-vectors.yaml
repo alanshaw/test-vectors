@@ -28,8 +28,22 @@ jobs:
       - name: Update test vectors
         run: make upgen
       - name: Commit and push
+        env:
+          BRANCH: chore/update-test-vectors-${{ github.sha }}
         run: |
-          git checkout -b chore/update-test-vectors-${{ github.sha }}
+          git checkout -b $BRANCH
           git add corpus/**/*.json
           git -c user.name="GitHub Actions" -c user.email="actions@github.com" commit -m "chore: update test vectors" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
-          git push origin chore/update-test-vectors-${{ github.sha }}
+          git push origin $BRANCH
+      - name: Open PR
+        env:
+          BRANCH: chore/update-test-vectors-${{ github.sha }}
+        run: |
+          RESPONSE_CODE=$(curl -o .output -s -w "%{http_code}\n" \
+            --data "{\"title\":\"chore: update test vectors (${{ github.sha }})\", \"head\": \"$BRANCH\", \"base\": \"master\"}" \
+            -X POST \
+            -H "Authorization: token ${{ github.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls")
+          echo "~~~~ Response ~~~~"
+          echo "Code : $RESPONSE_CODE"
